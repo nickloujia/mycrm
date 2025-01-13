@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRM 系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>客户列表</h1>
+    <div id="customers"></div>
+
+    <script>
+        async function loadCustomers() {
+            try {
+                const response = await axios.get('/api/customers');
+                const customersDiv = document.getElementById('customers');
+                const customers = response.data;
+                
+                customersDiv.innerHTML = customers.map(customer => `
+                    <div>
+                        <h3>${customer.name}</h3>
+                        <p>邮箱：${customer.email}</p>
+                        <p>电话：${customer.phone}</p>
+                        <p>地址：${customer.address}</p>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('加载客户数据失败:', error);
+            }
+        }
+
+        loadCustomers();
+    </script>
+</body>
+</html> 
